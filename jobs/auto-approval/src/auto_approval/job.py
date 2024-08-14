@@ -83,26 +83,22 @@ def process_applications(app, applications):
             and registration_status == RegistrationStatus.APPROVED
             and registration_id
         ):
-            url = f"{app.config.get("STRR_API_URL")}/registrations/{registration_id}/certificate"
+            url = (
+                f"{app.config.get('STRR_API_URL')}"
+                f"/registrations/{registration_id}"
+                f"/certificate"
+            )
             headers = {
                 "Authorization": f"Bearer {token}",
                 "Content-Type": "application/json",
             }
             try:
                 response = requests.post(url, headers=headers)
-                if response.status_code == HTTPStatus.CREATED:
-                    return response.json(), HTTPStatus.CREATED
-                elif response.status_code == HTTPStatus.NOT_FOUND:
-                    app.logger.error("Response error: Registration not found")
-                elif response.status_code in (
-                    HTTPStatus.UNAUTHORIZED,
-                    HTTPStatus.FORBIDDEN,
-                ):
+                if response.status_code != HTTPStatus.CREATED:
                     app.logger.error(
-                        "Response error: Authentication or authorization error"
+                        f"Unexpected response error: Status Code: {response.status_code}, "
+                        f"URL: {url}"
                     )
-                else:
-                    app.logger.error("Unexpected error occurred")
             except requests.RequestException as e:
                 app.logger.error(f"Request failed: {str(e)}")
 
