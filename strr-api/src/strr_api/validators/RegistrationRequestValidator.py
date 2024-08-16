@@ -28,12 +28,12 @@ def validate_registration_request(registration_request: RegistrationRequest):
         )
     )
 
-    if registration_request.registration.secondaryContact:
-        registration_request.registration.secondaryContact.mailingAddress.postalCode = (
+    for contact in registration_request.registration.secondaryContacts:
+        contact.mailingAddress.postalCode = (
             validate_and_format_canadian_postal_code(
-                registration_request.registration.secondaryContact.mailingAddress.country,
-                registration_request.registration.secondaryContact.mailingAddress.province,
-                registration_request.registration.secondaryContact.mailingAddress.postalCode,
+                contact.mailingAddress.country,
+                contact.mailingAddress.province,
+                contact.mailingAddress.postalCode,
             )
         )
 

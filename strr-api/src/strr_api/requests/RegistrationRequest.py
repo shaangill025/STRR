@@ -30,13 +30,13 @@ class Registration:
         unitDetails,
         listingDetails,
         principalResidence,
-        secondaryContact=None,
+        secondaryContacts=None,
         documents=[],  # pylint: disable=W0102
     ):
         self.primaryContact = Contact(**primaryContact)
-        self.secondaryContact = None
-        if secondaryContact:
-            self.secondaryContact = Contact(**secondaryContact)
+        self.secondaryContacts = []
+        if secondaryContacts and len(secondaryContacts) >= 1:
+            self.secondaryContacts = [Contact(**contact) for contact in secondaryContacts]
         self.unitAddress = UnitAddress(**unitAddress)
         self.unitDetails = UnitDetails(**unitDetails)
         self.listingDetails = [ListingDetails(**item) for item in listingDetails]

@@ -133,8 +133,11 @@
         "primaryContact": {
           "$ref": "#/definitions/contact"
         },
-        "secondaryContact": {
-          "$ref": "#/definitions/contact"
+        "secondaryContacts": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/contact"
+          }
         },
         "unitAddress": {
           "nickname": {

@@ -92,41 +92,41 @@ class RegistrationService:
         db.session.flush()
         db.session.refresh(primary_contact)
 
-        secondary_contact = None
-        if registration_request.secondaryContact:
+        secondary_contacts = []
+        for contact in registration_request.secondaryContacts:
             secondary_contact = Contact(
-                firstname=registration_request.secondaryContact.name.firstName,
-                lastname=registration_request.secondaryContact.name.lastName,
-                middlename=registration_request.secondaryContact.name.middleName,
-                email=registration_request.secondaryContact.details.emailAddress,
-                preferredname=registration_request.secondaryContact.details.preferredName,
-                phone_extension=registration_request.secondaryContact.details.extension,
-                fax_number=registration_request.secondaryContact.details.faxNumber,
-                phone_number=registration_request.secondaryContact.details.phoneNumber,
-                date_of_birth=registration_request.secondaryContact.dateOfBirth,
-                social_insurance_number=registration_request.secondaryContact.socialInsuranceNumber,
-                business_number=registration_request.secondaryContact.businessNumber,
+                firstname=contact.name.firstName,
+                lastname=contact.name.lastName,
+                middlename=contact.name.middleName,
+                email=contact.details.emailAddress,
+                preferredname=contact.details.preferredName,
+                phone_extension=contact.details.extension,
+                fax_number=contact.details.faxNumber,
+                phone_number=contact.details.phoneNumber,
+                date_of_birth=contact.dateOfBirth,
+                social_insurance_number=contact.socialInsuranceNumber,
+                business_number=contact.businessNumber,
                 address=Address(
-                    country=registration_request.primaryContact.mailingAddress.country,
-                    street_address=registration_request.primaryContact.mailingAddress.address,
-                    street_address_additional=registration_request.primaryContact.mailingAddress.addressLineTwo,
-                    city=registration_request.primaryContact.mailingAddress.city,
-                    province=registration_request.primaryContact.mailingAddress.province,
-                    postal_code=registration_request.primaryContact.mailingAddress.postalCode,
+                    country=contact.mailingAddress.country,
+                    street_address=contact.mailingAddress.address,
+                    street_address_additional=contact.mailingAddress.addressLineTwo,
+                    city=contact.mailingAddress.city,
+                    province=contact.mailingAddress.province,
+                    postal_code=contact.mailingAddress.postalCode,
                 ),
             )
             db.session.add(secondary_contact)
             db.session.flush()
             db.session.refresh(secondary_contact)
+            secondary_contacts.append(secondary_contact)
 
         property_manager = PropertyManager(primary_contact_id=primary_contact.id)
-
-        if secondary_contact:
-            property_manager.secondary_contact_id = secondary_contact.id
-
         db.session.add(property_manager)
         db.session.flush()
         db.session.refresh(property_manager)
+
+        for contact in secondary_contacts:
+            property_manager.add_secondary_contact(contact)
 
         eligibility = Eligibility(
             is_principal_residence=registration_request.principalResidence.isPrincipalResidence,

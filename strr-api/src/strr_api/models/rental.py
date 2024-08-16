@@ -61,6 +61,18 @@ class Address(BaseModel):
         return f"{unit}{self.street_address}, {self.city}, {self.province}, {self.country}, {self.postal_code}"
 
 
+class SecondaryContactsAssociation(BaseModel):
+    """Association table for secondary contacts of property managers."""
+
+    __tablename__ = 'secondary_contacts_association'
+
+    property_manager_id = db.Column(db.Integer, db.ForeignKey('property_managers.id'), primary_key=True)
+    contact_id = db.Column(db.Integer, db.ForeignKey('contacts.id'), primary_key=True)
+
+    property_manager = relationship("PropertyManager", back_populates="secondary_contacts_associations")
+    contact = relationship("Contact", back_populates="property_manager_associations")
+
+
 class PropertyManager(BaseModel):
     """Property Manager"""
 
@@ -68,10 +80,27 @@ class PropertyManager(BaseModel):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     primary_contact_id = db.Column(db.Integer, db.ForeignKey("contacts.id"), nullable=False)
-    secondary_contact_id = db.Column(db.Integer, db.ForeignKey("contacts.id"), nullable=False)
 
     primary_contact = relationship("Contact", foreign_keys=[primary_contact_id])
-    secondary_contact = relationship("Contact", foreign_keys=[secondary_contact_id])
+    secondary_contacts_associations = relationship("SecondaryContactsAssociation", back_populates="property_manager")
+    secondary_contacts = relationship("Contact", secondary="secondary_contacts_association", back_populates="managing_properties")
+
+    def add_secondary_contact(self, contact):
+        """Add or set a secondary contact for this property manager."""
+        existing_association = SecondaryContactsAssociation.query.filter_by(
+            property_manager_id=self.id, contact_id=contact.id
+        ).first()
+
+        if existing_association:
+            return
+
+        new_association = SecondaryContactsAssociation(property_manager=self, contact=contact)
+        db.session.add(new_association)
+        db.session.commit()
+
+    def get_all_secondary_contacts(self):
+        """Get all secondary contacts for this property manager."""
+        return [association.contact for association in self.secondary_contacts_associations]
 
 
 class RentalPlatform(BaseModel):

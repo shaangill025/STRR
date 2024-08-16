@@ -134,25 +134,27 @@ def fake_application(ownership_type="rent", is_principal_residence=True, specifi
                     "postalCode": "V2X 6K6",
                 },
             },
-            "secondaryContact": {
-                "name": {"firstName": "The", "middleName": "Other", "lastName": "Guy"},
-                "dateOfBirth": "1986-10-23",
-                "details": {
-                    "preferredName": "Mouse",
-                    "phoneNumber": "604-888-8888",
-                    "extension": "",
-                    "faxNumber": "",
-                    "emailAddress": "test2@test.test",
-                },
-                "mailingAddress": {
-                    "country": "CA",
-                    "address": "12766 227st",
-                    "addressLineTwo": "",
-                    "city": "MAPLE RIDGE",
-                    "province": "BC",
-                    "postalCode": "V2X 6K6",
-                },
-            },
+            "secondaryContacts": [
+                {
+                    "name": {"firstName": "The", "middleName": "Other", "lastName": "Guy"},
+                    "dateOfBirth": "1986-10-23",
+                    "details": {
+                        "preferredName": "Mouse",
+                        "phoneNumber": "604-888-8888",
+                        "extension": "",
+                        "faxNumber": "",
+                        "emailAddress": "test2@test.test",
+                    },
+                    "mailingAddress": {
+                        "country": "CA",
+                        "address": "12766 227st",
+                        "addressLineTwo": "",
+                        "city": "MAPLE RIDGE",
+                        "province": "BC",
+                        "postalCode": "V2X 6K6",
+                    },
+                }
+            ],
             "unitDetails": {
                 "parcelIdentifier": "000-460-991",
                 "businessLicense": "",
