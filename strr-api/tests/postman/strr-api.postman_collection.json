@@ -953,6 +953,69 @@
 					"response": []
 				},
 				{
+					"name": "Data Portal - Get Registration Data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/data-portal/{{registration_number}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"data-portal",
+								"{{registration_number}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Data Portal - Get Registration Numbers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api_url}}/data-portal/registration-numbers",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"data-portal",
+								"registration-numbers"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "ACTIVE",
+									"description": "Registration Status Filter"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Search Applications",
 					"request": {
 						"auth": {

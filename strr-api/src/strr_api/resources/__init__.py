@@ -47,6 +47,7 @@ from .meta import bp as meta_endpoint
 from .ops import bp as ops_endpoint
 from .registrations import bp as registrations_endpoint
 from .users import bp as users_endpoint
+from .dataportal import bp as data_portal_endpoint
 
 
 def register_endpoints(app: Flask):
@@ -94,6 +95,11 @@ def register_endpoints(app: Flask):
     app.register_blueprint(
         url_prefix="/users",
         blueprint=users_endpoint,
+    )
+
+    app.register_blueprint(
+        url_prefix="/data-portal",
+        blueprint=data_portal_endpoint,
     )
 
     app.register_blueprint(meta_endpoint)
