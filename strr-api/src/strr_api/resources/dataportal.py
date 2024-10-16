@@ -107,9 +107,11 @@ def get_registration_data(registration_number):
                 "rentalUnitAddress": rental_property.address.to_oneline_address() if rental_property.address else None,
                 "pid": rental_property.parcel_identifier,
                 "localGovernmentBusinessLicence": rental_property.local_business_licence,
-                "localGovernmentBusinessLicenceExpiryDate": rental_property.local_business_licence_expiry_date.isoformat()
-                if rental_property.local_business_licence_expiry_date
-                else None,
+                "localGovernmentBusinessLicenceExpiryDate": (
+                    rental_property.local_business_licence_expiry_date.isoformat()
+                    if rental_property.local_business_licence_expiry_date
+                    else None
+                ),
                 "ownershipType": rental_property.ownership_type.value,
                 "rentalType": "Entire Home" if rental_property.is_principal_residence else "Shared Accommodation",
                 "rentalTypeDetails": rental_property.property_type.value,
