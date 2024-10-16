@@ -42,12 +42,12 @@ from flask import Flask
 from .account import bp as account_endpoint
 from .application import bp as application_endpoint
 from .base import bp as base_endpoint
+from .dataportal import bp as data_portal_endpoint
 from .documents import bp as documents_endpoint
 from .meta import bp as meta_endpoint
 from .ops import bp as ops_endpoint
 from .registrations import bp as registrations_endpoint
 from .users import bp as users_endpoint
-from .dataportal import bp as data_portal_endpoint
 
 
 def register_endpoints(app: Flask):

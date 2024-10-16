@@ -43,7 +43,7 @@ from flask import Blueprint, jsonify, request
 from flask_cors import cross_origin
 
 from strr_api.common.auth import jwt
-from strr_api.enums.enum import Role, RegistrationStatus
+from strr_api.enums.enum import RegistrationStatus, Role
 from strr_api.exceptions import error_response, exception_response
 from strr_api.models import Registration, RentalProperty
 
@@ -91,21 +91,25 @@ def get_registration_data(registration_number):
             "status": registration.status.value,
             "dateOfRegistration": registration.start_date.isoformat(),
             "dateOfExpiration": registration.expiry_date.isoformat(),
-           "propertyHostInformation": {
+            "propertyHostInformation": {
                 "firstName": primary_contact.contact.firstname if primary_contact else None,
                 "middleName": primary_contact.contact.middlename if primary_contact else None,
                 "lastName": primary_contact.contact.lastname if primary_contact else None,
                 "preferredName": primary_contact.contact.preferredname if primary_contact else None,
                 "phoneNumber": primary_contact.contact.phone_number if primary_contact else None,
                 "email": primary_contact.contact.email if primary_contact else None,
-                "mailingAddress": primary_contact.contact.address.to_oneline_address() if primary_contact and primary_contact.contact.address else None,
+                "mailingAddress": primary_contact.contact.address.to_oneline_address()
+                if primary_contact and primary_contact.contact.address
+                else None,
             },
             "strPropertyInformation": {
                 "nickname": rental_property.nickname,
                 "rentalUnitAddress": rental_property.address.to_oneline_address() if rental_property.address else None,
                 "pid": rental_property.parcel_identifier,
                 "localGovernmentBusinessLicence": rental_property.local_business_licence,
-                "localGovernmentBusinessLicenceExpiryDate": rental_property.local_business_licence_expiry_date.isoformat() if rental_property.local_business_licence_expiry_date else None,
+                "localGovernmentBusinessLicenceExpiryDate": rental_property.local_business_licence_expiry_date.isoformat()
+                if rental_property.local_business_licence_expiry_date
+                else None,
                 "ownershipType": rental_property.ownership_type.value,
                 "rentalType": "Entire Home" if rental_property.is_principal_residence else "Shared Accommodation",
                 "rentalTypeDetails": rental_property.property_type.value,
@@ -149,7 +153,7 @@ def get_registration_numbers():
     """
 
     try:
-        status = request.args.get('status')
+        status = request.args.get("status")
         if status not in ["ACTIVE", "EXPIRED", "SUSPENDED", "CANCELLED"]:
             return error_response(HTTPStatus.BAD_REQUEST, "Registration status not found")
         if not status:
@@ -157,9 +161,7 @@ def get_registration_numbers():
         status_enum = RegistrationStatus[status.upper()]
         active_registrations = Registration.query.filter_by(status=status_enum).all()
         registration_numbers = [reg.registration_number for reg in active_registrations]
-        response_data = {
-            "registration_numbers": registration_numbers
-        }
+        response_data = {"registration_numbers": registration_numbers}
         return jsonify(response_data), HTTPStatus.OK
     except Exception as exception:
         return exception_response(exception)
