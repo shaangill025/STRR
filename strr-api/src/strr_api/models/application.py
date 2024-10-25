@@ -43,6 +43,7 @@ from sqlalchemy.orm import backref
 from sqlalchemy_utils.types.ts_vector import TSVectorType
 
 from strr_api.common.enum import BaseEnum, auto
+from strr_api.enums.enum import RegistrationType
 from strr_api.models.base_model import BaseModel
 from strr_api.models.dataclass import ApplicationSearch
 
@@ -280,6 +281,7 @@ class ApplicationSerializer:
             application_dict["header"]["reviewer"]["displayName"] = reviewer_display_name
 
         application_dict["header"]["isCertificateIssued"] = False
+        application_dict["header"]["isPropertyManager"] = False
         if application.registration_id:
             application_dict["header"]["registrationId"] = application.registration_id
             application_dict["header"]["registrationStartDate"] = application.registration.start_date.isoformat()
@@ -287,5 +289,23 @@ class ApplicationSerializer:
             application_dict["header"]["registrationStatus"] = application.registration.status.value
             application_dict["header"]["registrationNumber"] = application.registration.registration_number
             application_dict["header"]["isCertificateIssued"] = bool(application.registration.certificates)
-
+            if application.registration.registration_type == RegistrationType.HOST:
+                rental_property = application.registration.rental_property
+                if rental_property and rental_property.property_manager:
+                    application_dict["header"]["isPropertyManager"] = True
+                application_dict["header"]["propertyAddress"] = rental_property.address.to_oneline_address()
+                primary_property_contact = list(
+                    filter(lambda x: x.is_primary is True, application.registration.rental_property.contacts)
+                )[0]
+                primary_contact_firstname = primary_property_contact.contact.firstname
+                primary_contact_lastname = primary_property_contact.contact.firstname
+                application_dict["header"]["applicantName"] = f"{primary_contact_firstname} {primary_contact_lastname}"
+            elif application.registration.registration_type == RegistrationType.PLATFORM:
+                platform_details = application.registration.platform_registration.platform
+                platform_legal_name = platform_details.legal_name
+                platform_mailing_address = platform_details.mailingAddress.to_oneline_address()
+                application_dict["header"]["propertyAddress"] = platform_mailing_address
+                application_dict["header"]["applicantName"] = platform_legal_name
+            elif application.registration.registration_type == RegistrationType.STRATA_HOTEL:
+                pass
         return application_dict
