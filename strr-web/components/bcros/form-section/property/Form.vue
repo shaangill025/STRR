@@ -94,9 +94,8 @@ const {
 } = useCanadaPostAddress(true)
 
 const getActiveAddressState = () => {
-  if (activeAddressField.value === 'propertyAddressStreetNumber') {
-    return formState.propertyDetails
-  } else if (activeAddressField.value === 'propertyAddressStreetName') {
+  if (activeAddressField.value === 'propertyAddressStreetNumber' ||
+      activeAddressField.value === 'propertyAddressStreetName') {
     return formState.propertyDetails
   }
   return null
