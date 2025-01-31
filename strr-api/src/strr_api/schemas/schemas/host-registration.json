@@ -128,7 +128,7 @@
         "blExemptReason": {
           "type": "string",
           "maxLength": 1000,
-          "description": "Other BL Exemption Reason."
+          "description": "BL Exemption Reason."
         },
         "rentalUnitSpaceType": {
           "type": "string",
