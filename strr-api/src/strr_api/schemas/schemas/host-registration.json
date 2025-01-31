@@ -125,6 +125,21 @@
           "type": "string",
           "format": "date"
         },
+        "blExemptReason": {
+          "type": "string",
+          "oneOf": [
+            {
+              "enum": ["NO_BOOKINGS_UNDER_30_DAYS"]
+            },
+            {
+              "not": {
+                "enum": ["NO_BOOKINGS_UNDER_30_DAYS"]
+              },
+              "maxLength": 1000,
+              "description": "Other BL Exemption Reason."
+            }
+          ]
+        },
         "rentalUnitSpaceType": {
           "type": "string",
           "enum": [

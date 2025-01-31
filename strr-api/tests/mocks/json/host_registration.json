@@ -72,7 +72,8 @@
       "hostResidence": "SAME_UNIT",
       "isUnitOnPrincipalResidenceProperty": true,
       "numberOfRoomsForRent": 1,
-      "prExemptReason": "FRACTIONAL_OWNERSHIP"
+      "prExemptReason": "FRACTIONAL_OWNERSHIP",
+      "blExemptReason": "This requirement is exempted because the property is a strata hotel."
     },
     "listingDetails": [
       {
