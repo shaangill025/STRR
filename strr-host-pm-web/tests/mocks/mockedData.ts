@@ -84,7 +84,7 @@ export const mockHostApplication: HostApplicationResp = {
       propertyType: PropertyType.CONDO_OR_APT,
       rentalUnitSpaceType: RentalUnitType.ENTIRE_HOME,
       businessLicense: '123123123',
-      strataHotelCategory: StrataHotelCategoryType.FULL_SERVICE
+      strataHotelCategory: StrataHotelCategory.FULL_SERVICE
     }
   }
 }

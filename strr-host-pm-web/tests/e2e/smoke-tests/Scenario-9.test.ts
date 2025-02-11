@@ -15,7 +15,8 @@ import {
   completeStep3,
   completeStep4,
   assertDashboardDetailsView,
-  assertDashboardListView
+  assertDashboardListView,
+  strataHotelCategory
 } from '../test-utils'
 import { enI18n } from '~~/tests/mocks/i18n'
 // pull text from i18n keys instead of hard coding, this will only need to be updated if the i18n key changes
@@ -68,7 +69,7 @@ loginMethods.forEach((loginMethod) => {
           await expect(getPropertyRequirementsList(page).getByRole('button', { name: 'Business Licence' })).toBeVisible()
           await page.getByLabel(i18nText.text.thisPropIsExempt).check()
           await page.getByLabel(i18nText.label.exemptionReasonCode.STRATA_HOTEL).check()
-          await page.getByLabel(i18nText.strataHotelCategory.FULL_SERVICE).check()
+          await page.getByLabel(strataHotelCategory.FULL_SERVICE).check()
         }
       )
 
