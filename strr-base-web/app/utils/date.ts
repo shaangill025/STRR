@@ -26,7 +26,7 @@ export function dateToString (date: Date | string, format = 'y-MM-dd') {
   let formattedDate = DateTime.fromJSDate(new Date(date)).toFormat(luxonFormat)
 
   if (format.includes('t') || format.includes('a')) {
-    formattedDate = formattedDate.replace(/([0-9]{1,4}[-\/][0-9]{1,2}[-\/][0-9]{1,2})\s/g, '$1, ')
+    formattedDate = formattedDate.replace(/(\d{1,4}[-/]\d{1,2}[-/]\d{1,2})\s/g, '$1, ')
   }
 
   if (format.includes('a')) {
