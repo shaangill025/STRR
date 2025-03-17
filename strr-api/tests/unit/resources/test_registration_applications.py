@@ -786,7 +786,7 @@ def test_examiner_filter_record_number_application(session, client, jwt):
             assert application["header"]["registrationStatus"] == RegistrationStatus.ACTIVE.value
 
         # Test filter by invalid record number
-        rv = client.get(f"/applications?recordNumber=321123", headers=headers)
+        rv = client.get("/applications?recordNumber=321123", headers=headers)
         response_json = rv.json
         assert rv.status_code == 200
         assert len(response_json.get("applications")) == 0
