@@ -758,7 +758,7 @@ def test_examiner_filter_record_number_application(session, client, jwt):
         response_json = rv.json
         assert rv.status_code == 200
         assert len(response_json.get("applications")) == 1
-        assert response_json.get("applications")[0].get("applicationNumber") == application_number
+        assert response_json.get("applications")[0].get("header").get("applicationNumber") == application_number
 
         staff_headers = create_header(jwt, [STRR_EXAMINER], "Account-Id")
         status_update_request = {"status": Application.Status.FULL_REVIEW_APPROVED}
