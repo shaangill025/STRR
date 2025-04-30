@@ -66,6 +66,13 @@ const registrationCountdown = computed(() => {
             {{ activeHeader?.applicationNumber }}
           </span>
           <span
+            v-if="activeHeader?.registrationId"
+            class="cursor-pointer border-r-2 border-gray-700 pr-3 font-bold text-bcGovColor-activeBlue underline"
+            @click="goToRegistration(activeHeader?.registrationId)"
+          >
+            {{ activeHeader?.registrationNumber }}
+          </span>
+          <span
             v-if="getApplicationName()"
             class="border-r-2 border-gray-700 pr-3"
           >
